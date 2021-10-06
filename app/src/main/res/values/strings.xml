@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Manifesto</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="M">M</string>
+    <string name="manifesto">Manifesto</string>
+    <string name="noRecords">No one has currently signed in. Be the first to sign.</string>
+    <string name="sign_in_button">Sign In</string>
+    <string name="full_name">Full Name</string>
+    <string name="emergency_contact_name">Emergency Contact Name</string>
+    <string name="emergency_contact_number">Emergency Contact Number</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="save_and_sign">Save and Sign</string>
+</resources>
