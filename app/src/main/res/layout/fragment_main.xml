@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".mainscreen.MainScreenFragment">
 
-    <data>
+    <data>  
+        <variable
+            name="viewModel"
+            type="com.example.manifesto.mainscreen.MainScreenViewModel" />
 
     </data>
 
@@ -101,6 +104,7 @@ Be the first to sign.  " />
             android:layout_marginBottom="56dp"
             android:backgroundTint="#eea86c"
             android:text="@string/sign_in_button"
+            android:onClick="@{() -> viewModel.signInButton()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
