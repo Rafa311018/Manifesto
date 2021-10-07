@@ -1,20 +1,33 @@
 package com.example.manifesto.mainscreen
 
-import android.util.Log
-import android.view.View
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import com.example.manifesto.R
-import com.example.manifesto.data.model.GuessEntity
+import com.example.manifesto.data.model.GuestDatabaseDao
+import com.example.manifesto.data.model.GuestEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class MainScreenViewModel : ViewModel() {
+class MainScreenViewModel(
+    val database: GuestDatabaseDao,
+    application: Application
+) : ViewModel() {
 
     private val _navigateToSignIn = MutableLiveData<Boolean>()
     val navigateToSignIn: LiveData<Boolean>
         get() = _navigateToSignIn
+
+    private var guest = MutableLiveData<GuestEntity?>()
+
+    private val guests = database.getAllGuest()
+
+    suspend fun clear(guestId: Long) {
+        withContext(Dispatchers.IO) {
+            database.clear(guestId)
+        }
+    }
 
     fun signInButton() {
         _navigateToSignIn.value = true
@@ -26,3 +39,9 @@ class MainScreenViewModel : ViewModel() {
 
 
 }
+
+//class GuestViewModel(
+//    val database: GuestDatabaseDao,
+//    application: Application) : AndroidViewModel(application){
+//
+//    }

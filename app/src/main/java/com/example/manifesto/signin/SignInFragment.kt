@@ -8,20 +8,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.example.manifesto.MainActivity
 import com.example.manifesto.R
+import com.example.manifesto.createViewModel
+import com.example.manifesto.data.model.GuestDatabase
 import com.example.manifesto.databinding.FragmentMainBinding
 import com.example.manifesto.databinding.FragmentSignInBinding
 
 class SignInFragment : Fragment() {
 
-    private val viewModel: SignInViewModel by viewModels()
+//    private val viewModel: SignInViewModel by viewModels()
+
+    private lateinit var viewModel: SignInViewModel
 
     private lateinit var binding: FragmentSignInBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+
+        viewModel = createViewModel{
+            SignInViewModel(
+                GuestDatabase.getInstanceGuestDB(MainActivity.appContext).guestDatabaseDao,
+                MainActivity.App
+            )
+        }
+
         binding = FragmentSignInBinding.inflate(inflater,container,false)
         binding.viewModel = viewModel
 
@@ -32,6 +45,8 @@ class SignInFragment : Fragment() {
                 binding.fullNameTIL.helperText = null
             }
         })
+
+        binding.setLifecycleOwner(this)
         return binding.root
     }
 

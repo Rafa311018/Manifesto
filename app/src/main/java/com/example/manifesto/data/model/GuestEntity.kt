@@ -4,17 +4,17 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "guess_manifesto")
-data class GuessEntity(
+@Entity(tableName = "guest_manifesto_table")
+data class GuestEntity(
 
     @PrimaryKey(autoGenerate = true)
-    var guessId: Long = 0L,
+    var guestId: Long = 0L,
 
-    @ColumnInfo(name = "guess_name")
-    var guessPhone: String = "",
+    @ColumnInfo(name = "guest_name")
+    var guestPhone: String = "",
 
-    @ColumnInfo(name = "guess_email")
-    var guessEmail: String = "",
+    @ColumnInfo(name = "guest_email")
+    var guestEmail: String = "",
 
     @ColumnInfo(name = "emergency_number")
     var emergencyNumber: String = "",
