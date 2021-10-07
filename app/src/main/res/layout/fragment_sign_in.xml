@@ -163,7 +163,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="53dp"
                 android:layout_marginEnd="53dp"
-                android:text="@string/save_and_sign" />
+                android:text="@string/save_and_sign"
+                android:onClick="@{() -> viewModel.newGuest()}"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
