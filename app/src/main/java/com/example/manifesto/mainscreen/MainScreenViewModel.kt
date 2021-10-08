@@ -1,6 +1,7 @@
 package com.example.manifesto.mainscreen
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,9 +20,9 @@ class MainScreenViewModel(
     val navigateToSignIn: LiveData<Boolean>
         get() = _navigateToSignIn
 
-    private var guest = MutableLiveData<GuestEntity?>()
+    var guest = MutableLiveData<GuestEntity?>()
 
-    private val guests = database.getAllGuest()
+    var guests = database.getAllGuest()
 
     suspend fun clear(guestId: Long) {
         withContext(Dispatchers.IO) {

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.manifesto.MainActivity
 import com.example.manifesto.R
 import com.example.manifesto.createViewModel
@@ -37,12 +38,12 @@ class SignInFragment : Fragment() {
 
         binding = FragmentSignInBinding.inflate(inflater,container,false)
         binding.viewModel = viewModel
-
-        viewModel._nameError.observe(viewLifecycleOwner, Observer { error ->
-            if (error){
-                binding.fullNameTIL.helperText = "Must be 2-12 character&apos;s long and have no special chaaracters."
-            }else {
-                binding.fullNameTIL.helperText = null
+        viewModel.navigateToMainScreen.observe(viewLifecycleOwner, Observer { navigate ->
+            if (navigate){
+                this.findNavController().navigate(
+                    SignInFragmentDirections.
+                    actionSignInFragmentToMainScreenFragment())
+                viewModel.doneNavigating()
             }
         })
 

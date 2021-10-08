@@ -11,6 +11,9 @@ data class GuestEntity(
     var guestId: Long = 0L,
 
     @ColumnInfo(name = "guest_name")
+    var guestName: String = "",
+
+    @ColumnInfo(name = "guest_phone")
     var guestPhone: String = "",
 
     @ColumnInfo(name = "guest_email")

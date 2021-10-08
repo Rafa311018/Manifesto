@@ -1,6 +1,7 @@
 package com.example.manifesto.mainscreen
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,22 +28,31 @@ class MainScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = createViewModel{
+        viewModel = createViewModel {
             MainScreenViewModel(
                 GuestDatabase.getInstanceGuestDB(MainActivity.appContext).guestDatabaseDao,
                 MainActivity.App
             )
         }
 
-        binding = FragmentMainBinding.inflate(inflater,container, false)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.viewModel
+
+        val adapter = MainScreenAdapter()
+        binding.guestList.adapter = adapter
+
+        viewModel.guests.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.data = it
+            }
+        })
 
         viewModel.navigateToSignIn.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
                 this.findNavController().navigate(
-                    MainScreenFragmentDirections.
-                    actionMainScreenFragmentToSignInFragment())
+                    MainScreenFragmentDirections.actionMainScreenFragmentToSignInFragment()
+                )
                 viewModel.doneNavigating()
             }
         })
