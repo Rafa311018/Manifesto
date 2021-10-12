@@ -8,7 +8,9 @@
         <entry key="..\:/AndroidApps/Manifesto/app/src/main/res/font/montserrat.xml" value="0.396875" />
         <entry key="..\:/AndroidApps/Manifesto/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
         <entry key="..\:/AndroidApps/Manifesto/app/src/main/res/layout/fragment_main.xml" value="0.33" />
-        <entry key="..\:/AndroidApps/Manifesto/app/src/main/res/layout/fragment_sign_in.xml" value="0.2881844380403458" />
+        <entry key="..\:/AndroidApps/Manifesto/app/src/main/res/layout/fragment_sign_in.xml" value="0.33" />
+        <entry key="..\:/AndroidApps/Manifesto/app/src/main/res/layout/header.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidApps/Manifesto/app/src/main/res/layout/text_item_view.xml" value="0.5" />
       </map>
     </option>
   </component>

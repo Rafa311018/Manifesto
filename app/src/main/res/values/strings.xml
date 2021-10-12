@@ -12,4 +12,5 @@
     <string name="email">Email</string>
     <string name="phone_number">Phone Number</string>
     <string name="save_and_sign">Save and Sign</string>
+    <string name="sign_in_text">Sign in at the registry.</string>
 </resources>

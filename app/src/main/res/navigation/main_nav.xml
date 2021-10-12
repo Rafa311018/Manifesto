@@ -22,5 +22,11 @@
         <action
             android:id="@+id/action_signInFragment_to_mainScreenFragment"
             app:destination="@id/mainScreenFragment" />
+        <argument
+            android:name="guestId"
+            app:argType="long" />
+        <argument
+            android:name="edit"
+            app:argType="boolean" />
     </fragment>
 </navigation>
