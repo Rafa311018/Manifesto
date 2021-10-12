@@ -13,7 +13,7 @@ abstract class GuestDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: GuestDatabase? = null
-        fun getInstanceGuestDB(context: Context) : GuestDatabase{
+        fun getInstanceGuestDB(context: Context): GuestDatabase {
             synchronized(this) {
                 var instance = INSTANCE
                 if (instance == null) {

@@ -80,6 +80,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/full_name"
+                    app:boxStrokeColor="#eea86c"
+                    app:hintTextColor="#eea86c"
+                    app:endIconMode="clear_text"
                     app:helperText="@{viewModel.nameError}"
                     app:helperTextTextColor="@android:color/holo_red_dark">
 
@@ -87,12 +90,9 @@
                         android:id="@+id/fullNameTIET"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginEnd="20dp"
                         android:inputType="textPersonName"
                         android:onTextChanged="@{(text, start, before, count) -> viewModel.updateName(text) }"
-                        android:text="@{viewModel._fullname}" />
+                        android:text="@{viewModel.fullName}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,18 +102,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/phone_number"
+                    app:boxStrokeColor="#eea86c"
+                    app:hintTextColor="#eea86c"
                     app:helperText="@{viewModel.phoneError}"
+                    app:endIconMode="clear_text"
                     app:helperTextTextColor="@android:color/holo_red_dark">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/phoneNumberTIET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginEnd="20dp"
                         android:inputType="phone"
-                        android:onTextChanged="@{(text, start, before, count) -> viewModel.updateNumber(text) }" />
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.updateNumber(text) }"
+                        android:text="@{viewModel.phoneNumber}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -123,18 +124,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
+                    app:boxStrokeColor="#eea86c"
+                    app:hintTextColor="#eea86c"
                     app:helperText="@{viewModel.emailError}"
+                    app:endIconMode="clear_text"
                     app:helperTextTextColor="@android:color/holo_red_dark">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emailTIET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginEnd="20dp"
                         android:inputType="textWebEmailAddress"
-                        android:onTextChanged="@{(text, start, before, count) -> viewModel.updateEmail(text) }" />
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.updateEmail(text) }"
+                        android:text="@{viewModel.email}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -144,18 +146,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/emergency_contact_number"
+                    app:boxStrokeColor="#eea86c"
+                    app:hintTextColor="#eea86c"
                     app:helperText="@{viewModel.emergencyContactNumberError}"
+                    app:endIconMode="clear_text"
                     app:helperTextTextColor="@android:color/holo_red_dark">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emergencyContactNumberTIET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginEnd="20dp"
                         android:inputType="phone"
-                        android:onTextChanged="@{(text, start, before, count) -> viewModel.updateEmergencyContactNumber(text) }" />
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.updateEmergencyContactNumber(text) }"
+                        android:text="@{viewModel.emergencyContactNumber}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,18 +168,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/emergency_contact_name"
+                    app:boxStrokeColor="#eea86c"
+                    app:hintTextColor="#eea86c"
+                    app:boxStrokeErrorColor="@color/design_default_color_error"
                     app:helperText="@{viewModel.emergencyContactNameError}"
+                    app:endIconMode="clear_text"
                     app:helperTextTextColor="@android:color/holo_red_dark">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emergencyContactNameTIET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginEnd="20dp"
                         android:inputType="textPersonName"
-                        android:onTextChanged="@{(text, start, before, count) -> viewModel.updateEmergencyConntactName(text) }" />
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.updateEmergencyContactName(text) }"
+                        android:text="@{viewModel.emergencyContactName}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -186,6 +191,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="53dp"
                     android:layout_marginEnd="53dp"
+                    android:enabled="@{viewModel._buttonEnable}"
                     android:onClick="@{() -> viewModel.newGuest()}"
                     android:text="@string/save_and_sign" />
             </LinearLayout>

@@ -16,14 +16,14 @@ interface GuestDatabaseDao {
     fun update(guest: GuestEntity)
 
     //get a guest
-    @Query("SELECT * FROM guest_manifesto_table WHERE guestId = :key")
-    fun getGuest(key: Long): GuestEntity?
+    @Query("SELECT * FROM guest_manifesto_table WHERE guestId IN (:key)")
+    fun getGuest(key: Long?): GuestEntity
 
     //show all guests
     @Query("SELECT * FROM guest_manifesto_table ORDER BY guestId DESC")
-    fun getAllGuest(): LiveData<List<GuestEntity>>
+    fun getAllGuest(): List<GuestEntity>
 
     //Delete a guest
-    @Query("DELETE FROM guest_manifesto_table WHERE guestId = :key")
-    fun clear(key: Long)
+    @Query("DELETE FROM guest_manifesto_table WHERE guestId IN (:key)")
+    fun deleteGuest(key: Long)
 }

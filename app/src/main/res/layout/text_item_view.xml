@@ -1,8 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:textColor="@color/white"
-    android:textSize="24sp" />
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="guest"
+            type="com.example.manifesto.data.model.GuestEntity" />
+        <variable
+            name="clickListenerDelete"
+            type="com.example.manifesto.mainscreen.GuestListener" />
+        <variable
+            name="clickListenerEdit"
+            type="com.example.manifesto.mainscreen.EditGuestListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/guest_name"
+            android:layout_width="227dp"
+            android:layout_height="27dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="2dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:FullName="@{guest}"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_guest"
+            app:layout_constraintEnd_toStartOf="@+id/edit_guest"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/edit_guest"
+            tools:text="Rafael Mata"
+            tools:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/edit_guest"
+            android:layout_width="35dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/delete_guest"
+            app:layout_constraintEnd_toStartOf="@+id/delete_guest"
+            app:layout_constraintTop_toTopOf="@+id/delete_guest"
+            app:srcCompat="@drawable/edit_edit"
+            tools:srcCompat="@drawable/edit_edit"
+            android:onClick="@{() -> clickListenerEdit.onClickEdit(guest)}"/>
+
+        <ImageView
+            android:id="@+id/delete_guest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/menu_close_big"
+            android:onClick="@{() -> clickListenerDelete.onClick(guest)}"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,6 +1,5 @@
 package com.example.manifesto.signin
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,27 +11,28 @@ import kotlinx.coroutines.*
 
 class SignInViewModel(
     val database: GuestDatabaseDao,
-    application: Application
+    private val guestIdKey: Long? = null,
+    private val edit: Boolean
 ) : ViewModel() {
-    val _fullname: MutableLiveData<String> = MutableLiveData()
-    val name: LiveData<String>
-        get() = _fullname
+    private var _fullName: MutableLiveData<String> = MutableLiveData()
+    val fullName: LiveData<String>
+        get() = _fullName
 
-    val _phonenumber: MutableLiveData<String> = MutableLiveData()
-    val phonenumber: LiveData<String>
-        get() = _phonenumber
+    private val _phoneNumber: MutableLiveData<String> = MutableLiveData()
+    val phoneNumber: LiveData<String>
+        get() = _phoneNumber
 
-    val _email: MutableLiveData<String> = MutableLiveData()
+    private val _email: MutableLiveData<String> = MutableLiveData()
     val email: LiveData<String>
         get() = _email
 
-    val _emergencycontactnumber: MutableLiveData<String> = MutableLiveData()
-    val emergencycontactnumber: LiveData<String>
-        get() = _emergencycontactnumber
+    private val _emergencyContactCumber: MutableLiveData<String> = MutableLiveData()
+    val emergencyContactNumber: LiveData<String>
+        get() = _emergencyContactCumber
 
-    val _emergencycontactname: MutableLiveData<String> = MutableLiveData()
-    val emergencycontactname: LiveData<String>
-        get() = _emergencycontactname
+    private val _emergencyContactName: MutableLiveData<String> = MutableLiveData()
+    val emergencyContactName: LiveData<String>
+        get() = _emergencyContactName
 
     private val _nameError: MutableLiveData<String> = MutableLiveData()
     val nameError: LiveData<String>
@@ -58,43 +58,78 @@ class SignInViewModel(
     val navigateToMainScreen: LiveData<Boolean>
         get() = _navigateToMainScreen
 
-    private var viewModelJob = Job()
+    private val _dataUpdated = MutableLiveData<Boolean>()
+    val dataUpdated: LiveData<Boolean>
+        get() = _dataUpdated
+
+    var _buttonEnable: MutableLiveData<Boolean> = MutableLiveData()
+    val buttonEnable: LiveData<Boolean>
+        get() = _buttonEnable
 
     override fun onCleared() {
         super.onCleared()
-        viewModelJob.cancel()
     }
 
     private var guest = MutableLiveData<GuestEntity?>()
 
+    private var editGuest = GuestEntity()
+
     init {
-//        initializeGuest()
+        if (edit) {
+            initializeGuest()
+        }
     }
 
-//    private fun initializeGuest() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            guest.postValue(null)
-//        }
-//    }
+    private fun initializeGuest() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getGuestFromDatabase()
+            _dataUpdated.postValue(true)
+        }
+    }
+
+    private suspend fun getGuestFromDatabase() {
+        withContext(Dispatchers.IO) {
+            editGuest = database.getGuest(guestIdKey)
+
+        }
+    }
+
+    fun updateData() {
+        viewModelScope.launch(Dispatchers.Main) {
+            updateFields()
+        }
+        _dataUpdated.value = false
+    }
+
+    private fun updateFields() {
+        _fullName.postValue(editGuest.guestName)
+        _phoneNumber.postValue(editGuest.guestPhone)
+        _email.postValue(editGuest.guestEmail)
+        _emergencyContactCumber.postValue(editGuest.emergencyNumber)
+        _emergencyContactName.postValue(editGuest.emergencyContactName)
+    }
 
     fun newGuest() {
-        if (true) {
-            viewModelScope.launch(Dispatchers.Main) {
-                val newGuest = GuestEntity()
+        val newGuest = GuestEntity()
 
-                newGuest.guestName = _fullname.value.toString()
-                newGuest.guestPhone = _phonenumber.value.toString()
-                newGuest.guestEmail = _email.value.toString()
-                newGuest.emergencyNumber = _emergencycontactnumber.value.toString()
-                newGuest.emergencyContactName = _emergencycontactname.value.toString()
-
-                insert(newGuest)
-                Log.d("Yoshi", "${newGuest.guestId}")
-                _navigateToMainScreen.value = true
-
+        newGuest.guestName = _fullName.value.toString()
+        newGuest.guestPhone = _phoneNumber.value.toString()
+        newGuest.guestEmail = _email.value.toString()
+        newGuest.emergencyNumber = _emergencyContactCumber.value.toString()
+        newGuest.emergencyContactName = _emergencyContactName.value.toString()
+        if (edit) {
+            viewModelScope.launch(Dispatchers.IO) {
+                newGuest.guestId = guestIdKey ?: 0
+                Log.d("Yoshi", "$newGuest")
+                update(newGuest)
+                _navigateToMainScreen.postValue(true)
             }
         } else {
+            viewModelScope.launch(Dispatchers.IO) {
+                insert(newGuest)
+                _navigateToMainScreen.postValue(true)
 
+            }
         }
     }
 
@@ -108,43 +143,62 @@ class SignInViewModel(
         }
     }
 
+    private suspend fun update(guest: GuestEntity) {
+        withContext(Dispatchers.IO) {
+            database.update(guest)
+        }
+    }
+
+    fun isEmpty() {
+        _buttonEnable.value =
+            _fullName.value != null && _phoneNumber.value != null && _email.value != null && _emergencyContactName.value != null && _emergencyContactCumber.value != null &&
+                    _nameError.value == "" && _phoneError.value == "" && _emailError.value == "" && _emergencyContactNameError.value == "" && _emergencyContactNumberError.value == ""
+    }
+
     // update functions
     fun updateName(text: CharSequence) {
-        _fullname.value = text.toString()
-        _nameError.value = checkNameLength(_fullname.value.toString())
+        _fullName.value = text.toString()
+        _nameError.value = checkNameLength(_fullName.value.toString())
+        isEmpty()
     }
 
     fun updateNumber(text: CharSequence) {
-        _phonenumber.value = text.toString()
-        _phoneError.value = checkPhoneLength(_phonenumber.value.toString())
+        _phoneNumber.value = text.toString()
+        _phoneError.value = checkPhoneLength(_phoneNumber.value.toString())
+        isEmpty()
     }
 
     fun updateEmail(text: CharSequence) {
         _email.value = text.toString()
         _emailError.value = checkEmail(_email.value.toString())
+        isEmpty()
     }
 
     fun updateEmergencyContactNumber(text: CharSequence) {
-        _emergencycontactnumber.value = text.toString()
-        _emergencyContactNumberError.value = checkPhoneLength(_emergencycontactnumber.value.toString())
+        _emergencyContactCumber.value = text.toString()
+        _emergencyContactNumberError.value =
+            checkPhoneLength(_emergencyContactCumber.value.toString())
+        isEmpty()
     }
 
-    fun updateEmergencyConntactName(text: CharSequence) {
-        _emergencycontactname.value = text.toString()
-        _emergencyContactNameError.value = checkNameLength(_emergencycontactname.value.toString())
+    fun updateEmergencyContactName(text: CharSequence) {
+        _emergencyContactName.value = text.toString()
+        _emergencyContactNameError.value = checkNameLength(_emergencyContactName.value.toString())
+        isEmpty()
     }
 
     // Validations
     private fun checkNameLength(name: String): String {
-        if(name.length < 2 || name.length > 12)
-        {
-            return "Must be 2-12 character's long and have no special characters."
+        "[^A-Za-z0-9 ]".toRegex().apply {
+            if (name.length < 2 || name.length > 12 || name.contains(this)) {
+                return "Must be 2-12 character's long and have no special characters."
+            }
         }
         return ""
     }
 
     private fun checkPhoneLength(phone: String): String {
-        if (phone.length != 10){
+        if (phone.length != 10) {
             return "Must enter 10 digit number."
         }
         return ""

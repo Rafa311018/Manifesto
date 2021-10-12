@@ -15,5 +15,3 @@ inline fun <reified V: ViewModel> Fragment.createViewModel(crossinline instance:
     }
     return ViewModelProvider(this,factory).get(V::class.java)
 }
-
-class TextItemViewHolder(val textView: TextView): RecyclerView.ViewHolder(textView)
